@@ -12,11 +12,13 @@ steps:
       version: '10.x'
 
   - script: dotnet build --configuration Release
+    workingDirectory: sample-unit-testing-using-dotnet-test
     displayName: Build
 
   - script: >
       dotnet test --configuration Release --no-build
       --logger trx --results-directory $(Agent.TempDirectory)/results
+    workingDirectory: sample-unit-testing-using-dotnet-test
     displayName: Unit tests
 
   - task: PublishTestResults@2
