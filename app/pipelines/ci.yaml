@@ -1,0 +1,30 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: UseDotNet@2
+    displayName: Install .NET SDK
+    inputs:
+      packageType: sdk
+      version: '10.0'
+
+  - script: dotnet build --configuration Release
+    displayName: Build
+
+  - script: >
+      dotnet test --configuration Release --no-build
+      --logger trx --results-directory $(Agent.TempDirectory)/results
+    displayName: Unit tests
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: VSTest
+      testResultsFiles: '$(Agent.TempDirectory)/results/*.trx'
+
+  - bash: echo "TODO - Deployment"
+    displayName: Deployment placeholder
