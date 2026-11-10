@@ -9,7 +9,7 @@ steps:
     displayName: Install .NET SDK
     inputs:
       packageType: sdk
-      version: '10.0'
+      version: '10.x'
 
   - script: dotnet build --configuration Release
     displayName: Build
